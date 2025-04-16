@@ -64,14 +64,9 @@ class AuthenticatedSessionController extends Controller
     /**
      * Log the user out of the application.
      */
-    public function logout(Request $request): RedirectResponse
+    public function logout()
     {
-        Auth::logout();
-    
-        $request->session()->invalidate();
-    
-        $request->session()->regenerateToken();
-    
-        return redirect('/');
+        Auth::user()->tokens()->delete();
+        return response()->json('Logged Out',200);
     }
 }
