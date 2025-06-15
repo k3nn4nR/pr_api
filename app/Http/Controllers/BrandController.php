@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreBrand;
 use App\Events\StoreEvent;
+use App\Http\Resources\BrandCollection;
 use Illuminate\Validation\ValidationException;
 
 class BrandController extends Controller
@@ -16,7 +17,7 @@ class BrandController extends Controller
      */
     public function index()
     {
-        //
+        return new BrandCollection(Brand::all());
     }
 
     /**
