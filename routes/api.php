@@ -12,7 +12,7 @@ Route::post('/login',[App\Http\Controllers\Auth\AuthenticatedSessionController::
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/logout',[App\Http\Controllers\Auth\AuthenticatedSessionController::class,'logout']);
-    Route::resource('brand', App\Http\Controllers\BrandController::class);
+    Route::apiResource('brand', App\Http\Controllers\BrandController::class);
     // Route::resource('status', App\Http\Controllers\Api\StatusController::class); 
     // Route::resource('code', App\Http\Controllers\Api\CodeController::class);
     // Route::resource('tag', App\Http\Controllers\Api\TagController::class);
