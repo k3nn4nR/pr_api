@@ -6,26 +6,37 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-class Brand extends Model
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class Type extends Model
 {
     use HasFactory, SoftDeletes;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
     protected $fillable = [
-        'brand',
+        'type',
+        'brand_id',
     ];
 
     public function getRouteKeyName()
     {
-        return 'brand';
+        return 'type';
     }
 
     /**
-     * Get all of the tags for the brand.
+     * Get the brand that owns the type.
+     */
+    public function brand(): BelongsTo
+    {
+        return $this->belongsTo(Brand::class);
+    }
+
+    /**
+     * Get all of the tags for the type.
      */
     public function tags(): MorphToMany
     {
@@ -33,7 +44,7 @@ class Brand extends Model
     }
 
     /**
-     * Get all of the statuses for the brand.
+     * Get all of the statuses for the type.
      */
     public function statuses(): MorphToMany
     {
@@ -41,19 +52,10 @@ class Brand extends Model
     }
 
     /**
-     * Get all of the codes for the brand.
+     * Get all of the codes for the type.
      */
     public function codes(): MorphToMany
     {
         return $this->morphToMany(Code::class, 'codeable')->withTimestamps()->wherePivotNull('deleted_at');
     }
-
-    /**
-     * Get the types for the brand.
-     */
-    public function types(): HasMany
-    {
-        return $this->hasMany(Type::class);
-    }
 }
-

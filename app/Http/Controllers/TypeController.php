@@ -2,23 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Brand;
-use Illuminate\Http\Request;
+use App\Models\Type;
+use App\Http\Requests\StoreTypeRequest;
+use App\Http\Requests\UpdateTypeRequest;
 use Illuminate\Support\Facades\DB;
-use App\Http\Requests\StoreBrand;
-use App\Http\Requests\UpdateBrandRequest;
-use App\Events\StoreEvent;
-use App\Http\Resources\BrandCollection;
 use Illuminate\Validation\ValidationException;
+use App\Events\StoreEvent;
+use App\Http\Resources\TypeCollection;
 
-class BrandController extends Controller
+class TypeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return new BrandCollection(Brand::all());
+        return new TypeCollection(Type::all());
     }
 
     /**
@@ -32,16 +31,17 @@ class BrandController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBrand $brand)
+    public function store(StoreTypeRequest $type)
     {
         DB::beginTransaction();
         try {
-            Brand::create([
-                'brand' => mb_strtoupper($brand->input('brand')),
+            Type::create([
+                'type' => mb_strtoupper($type->input('type')),
+                'brand_id' => $type->input('brand_id'),
             ]);
             DB::commit();
-            event(new StoreEvent('Brand Registered: '.$brand->input('brand')));
-            return response()->json('Brand Registered',200);
+            event(new StoreEvent('Model Registered: '.$type->input('type')));
+            return response()->json('Model Registered',200);
         } catch (ValidationException $e) {
             DB::rollBack();
             return response()->json([
@@ -59,15 +59,15 @@ class BrandController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $brand)
+    public function show(Type $type)
     {
-        
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Brand $brand)
+    public function edit(Type $type)
     {
         //
     }
@@ -75,14 +75,14 @@ class BrandController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBrandRequest $request, Brand $brand)
+    public function update(UpdateTypeRequest $request, Type $type)
     {
         DB::beginTransaction();
         try {
-            $brand->update(['brand' => mb_strtoupper($request->input('brand'))]);
+            $type->update(['type' => mb_strtoupper($request->input('type_new'))]);
             DB::commit();
-            event(new StoreEvent('Brand Updated'));
-            return response()->json('Brand Updated',200);
+            event(new StoreEvent('Type Updated'));
+            return response()->json('Type Updated',200);
         } catch(\Exception $e) {
             DB::rollBack();
             return response()->json($e->getMessage(),200);
@@ -92,14 +92,14 @@ class BrandController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Brand $brand)
+    public function destroy(Type $type)
     {
         DB::beginTransaction();
         try {
-            $brand->delete();
+            $type->delete();
             DB::commit();
-            event(new StoreEvent('Brand Deleted'));
-            return response()->json('Brand Deleted',200);
+            event(new StoreEvent('Type Deleted'));
+            return response()->json('Type Deleted',200);
         } catch(\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('message', $e->getMessage());

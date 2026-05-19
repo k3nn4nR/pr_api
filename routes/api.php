@@ -13,9 +13,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/logout',[App\Http\Controllers\Auth\AuthenticatedSessionController::class,'logout']);
     Route::apiResource('brand', App\Http\Controllers\BrandController::class);
-    // Route::resource('status', App\Http\Controllers\Api\StatusController::class); 
+    Route::apiResource('tag', App\Http\Controllers\TagController::class);
+    Route::apiResource('status', App\Http\Controllers\StatusController::class); 
     // Route::resource('code', App\Http\Controllers\Api\CodeController::class);
-    // Route::resource('tag', App\Http\Controllers\Api\TagController::class);
     // Route::name('status.')->group(function () {
     //     Route::controller(App\Http\Controllers\Api\StatusController::class)->group(function () {
     //         Route::post('/status/{status}/tags','update_status_tags')->name('update_status_tags');
@@ -47,20 +47,20 @@ Route::middleware('auth:sanctum')->group(function () {
     //         Route::delete('/code/{code}/comments/{comment}','destroy_code_comment')->name('destroy_code_comment');
     //     });
     // });
-    // Route::name('tag.')->group(function () {
-    //     Route::controller(App\Http\Controllers\Api\TagController::class)->group(function () {
-    //         Route::post('/tag/{tag}/tags','update_tag_tags')->name('update_tag_tags');
-    //         Route::post('/tag/{tag}/codes','update_tag_codes')->name('update_tag_codes');
-    //         Route::post('/tag/{tag}/statuses','update_tag_statuses')->name('update_tag_statuses');
-    //         Route::post('/tag/{tag}/files','update_tag_files')->name('update_tag_files');
-    //         Route::post('/tag/{tag}/comments','store_tag_comment')->name('store_tag_comment');
-    //         Route::get('/tag/{tag}/codes','get_tag_codes')->name('get_tag_codes');
-    //         Route::get('/tag/{tag}/tags','get_tag_tags')->name('get_tag_tags');
-    //         Route::get('/tag/{tag}/statuses','get_tag_statuses')->name('get_tag_statuses');
-    //         Route::get('/tag/{tag}/files','get_tag_files')->name('get_tag_files');
-    //         Route::get('/tag/{tag}/comments','get_tag_comments')->name('get_tag_comments');
-    //         Route::delete('/tag/{tag}/files/{file}','destroy_tag_file')->name('destroy_tag_file');
-    //         Route::delete('/tag/{tag}/comments/{comment}','destroy_tag_comment')->name('destroy_tag_comment');
-    //     });
-    // });
+    Route::name('tag.')->group(function () {
+        Route::controller(App\Http\Controllers\TagController::class)->group(function () {
+            Route::post('/tag/{tag}/tags','update_tag_tags')->name('update_tag_tags');
+            Route::post('/tag/{tag}/codes','update_tag_codes')->name('update_tag_codes');
+            Route::post('/tag/{tag}/statuses','update_tag_statuses')->name('update_tag_statuses');
+            Route::post('/tag/{tag}/files','update_tag_files')->name('update_tag_files');
+            Route::post('/tag/{tag}/comments','store_tag_comment')->name('store_tag_comment');
+            Route::get('/tag/{tag}/codes','get_tag_codes')->name('get_tag_codes');
+            Route::get('/tag/{tag}/tags','get_tag_tags')->name('get_tag_tags');
+            Route::get('/tag/{tag}/statuses','get_tag_statuses')->name('get_tag_statuses');
+            Route::get('/tag/{tag}/files','get_tag_files')->name('get_tag_files');
+            Route::get('/tag/{tag}/comments','get_tag_comments')->name('get_tag_comments');
+            Route::delete('/tag/{tag}/files/{file}','destroy_tag_file')->name('destroy_tag_file');
+            Route::delete('/tag/{tag}/comments/{comment}','destroy_tag_comment')->name('destroy_tag_comment');
+        });
+    });
 });

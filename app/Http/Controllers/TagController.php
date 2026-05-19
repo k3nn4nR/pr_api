@@ -2,23 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Brand;
-use Illuminate\Http\Request;
+use App\Models\Tag;
+use App\Http\Requests\StoreTagRequest;
+use App\Http\Requests\UpdateTagRequest;
 use Illuminate\Support\Facades\DB;
-use App\Http\Requests\StoreBrand;
-use App\Http\Requests\UpdateBrandRequest;
-use App\Events\StoreEvent;
-use App\Http\Resources\BrandCollection;
 use Illuminate\Validation\ValidationException;
+use App\Events\StoreEvent;
+use App\Http\Resources\TagCollection;
 
-class BrandController extends Controller
+class TagController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return new BrandCollection(Brand::all());
+        return new TagCollection(Tag::all());
     }
 
     /**
@@ -32,16 +31,16 @@ class BrandController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBrand $brand)
+    public function store(StoreTagRequest $tag)
     {
         DB::beginTransaction();
         try {
-            Brand::create([
-                'brand' => mb_strtoupper($brand->input('brand')),
+            Tag::create([
+                'tag' => mb_strtoupper($tag->input('tag')),
             ]);
             DB::commit();
-            event(new StoreEvent('Brand Registered: '.$brand->input('brand')));
-            return response()->json('Brand Registered',200);
+            event(new StoreEvent('Tag Registered: '.$tag->input('tag')));
+            return response()->json('Tag Registered',200);
         } catch (ValidationException $e) {
             DB::rollBack();
             return response()->json([
@@ -59,15 +58,15 @@ class BrandController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $brand)
+    public function show(Tag $tag)
     {
-        
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Brand $brand)
+    public function edit(Tag $tag)
     {
         //
     }
@@ -75,14 +74,14 @@ class BrandController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBrandRequest $request, Brand $brand)
+    public function update(UpdateTagRequest $request, Tag $tag)
     {
         DB::beginTransaction();
         try {
-            $brand->update(['brand' => mb_strtoupper($request->input('brand'))]);
+            $tag->update(['tag' => mb_strtoupper($request->input('tag'))]);
             DB::commit();
-            event(new StoreEvent('Brand Updated'));
-            return response()->json('Brand Updated',200);
+            event(new StoreEvent('Tag Updated'));
+            return response()->json('Tag Updated',200);
         } catch(\Exception $e) {
             DB::rollBack();
             return response()->json($e->getMessage(),200);
@@ -92,14 +91,14 @@ class BrandController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Brand $brand)
+    public function destroy(Tag $tag)
     {
         DB::beginTransaction();
         try {
-            $brand->delete();
+            $tag->delete();
             DB::commit();
-            event(new StoreEvent('Brand Deleted'));
-            return response()->json('Brand Deleted',200);
+            event(new StoreEvent('Tag Deleted'));
+            return response()->json('Tag Deleted',200);
         } catch(\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('message', $e->getMessage());
