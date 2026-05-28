@@ -19,8 +19,10 @@ return [
 
     'allowed_methods' => ['*'],
 
-    //'allowed_origins' => [env('FRONTEND_URL', 'http://localhost:3000')],
-    'allowed_origins' => [env('FRONTEND_URL', 'http://192.168.136.1:3000')],
+    //'allowed_origins' => [env('FRONTEND_URL', 'https://5zqfsfkf-3000.aue.devtunnels.ms')],
+
+    //'allowed_origins' => [env('FRONTEND_URL', 'http://localhost:3000')], //localhost
+    'allowed_origins' => [env('FRONTEND_URL', 'http://192.168.1.102:3000')], //local hosts wifi
 
     'allowed_origins_patterns' => [],
 

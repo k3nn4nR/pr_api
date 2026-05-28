@@ -13,8 +13,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/logout',[App\Http\Controllers\Auth\AuthenticatedSessionController::class,'logout']);
     Route::apiResource('brand', App\Http\Controllers\BrandController::class);
+    Route::apiResource('task', App\Http\Controllers\TaskController::class);
     Route::apiResource('tag', App\Http\Controllers\TagController::class);
-    Route::apiResource('status', App\Http\Controllers\StatusController::class); 
+    Route::apiResource('status', App\Http\Controllers\StatusController::class);
     // Route::resource('code', App\Http\Controllers\Api\CodeController::class);
     // Route::name('status.')->group(function () {
     //     Route::controller(App\Http\Controllers\Api\StatusController::class)->group(function () {
